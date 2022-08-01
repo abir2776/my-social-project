@@ -1,0 +1,37 @@
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+{% block title_block %} comments {% endblock %}
+{% block body_block %}
+<div class="row">
+    <div class="col-sm-8">
+        <form method="POST">
+            {{ comment_form|crispy }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary" style="width:100%">Comment</button>
+        </form>
+        <br>
+        <br>
+        <hr>
+        {% for comment in post.commented_post.all %}
+            <p><a href="#">@{{comment.user}}</a> {{comment.comment}}<br><h6>{{comment.date}}</h6></p>
+            <hr>
+        {% endfor %}
+    </div>
+    <div class="col-sm-4">
+        <div class="row">
+            <div class="col-sm-4">
+                {% if user.user_profile.profile_pic %}
+                <img src="/media/{{user.user_profile.profile_pic}}" alt="" width="75px" height="75px">
+                {% else %}
+                <img src="/media/default.webp" alt="" width="75px" height="75px">
+                {% endif %}
+            </div>
+            <div class="col-sm-8">
+                {{user.username}}
+                <br>
+                {{user.user_profile.full_name}}
+            </div>
+        </div>  
+    </div>
+</div>
+{% endblock %}
